@@ -9,13 +9,13 @@ var log = index.log;
 log.debug = function() {};
 
 var chai = require('chai');
-var bitcore = require('litecore-lib');
+var bitcore = require('luxcore-lib');
 var rimraf = require('rimraf');
 var node;
 
 var should = chai.should();
 
-var BitcoinRPC = require('litecoind-rpc');
+var BitcoinRPC = require('luxd-rpc');
 var index = require('..');
 var Transaction = bitcore.Transaction;
 var BitcoreNode = index.Node;
@@ -53,7 +53,7 @@ describe('Node Functionality', function() {
             config: {
               spawn: {
                 datadir: datadir,
-                exec: path.resolve(__dirname, '../bin/litecoind')
+                exec: path.resolve(__dirname, '../bin/luxd')
               }
             }
           }
@@ -205,7 +205,7 @@ describe('Node Functionality', function() {
         info.satoshis.should.equal(10 * 1e8);
         info.confirmations.should.equal(3);
         info.tx.blockTimestamp.should.be.a('number');
-        info.tx.feeSatoshis.should.be.within(9500, 40000); // TODO: Not sure how the fee is calculated in litecoind, start at rpcwallet.cpp sendtoaddress()
+        info.tx.feeSatoshis.should.be.within(9500, 40000); // TODO: Not sure how the fee is calculated in luxd, start at rpcwallet.cpp sendtoaddress()
         done();
       });
     });

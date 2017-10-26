@@ -6,11 +6,11 @@ var path = require('path');
 var index = require('..');
 var log = index.log;
 
-var p2p = require('litecore-p2p');
+var p2p = require('luxcore-p2p');
 var Peer = p2p.Peer;
 var Messages = p2p.Messages;
 var chai = require('chai');
-var bitcore = require('litecore-lib');
+var bitcore = require('luxcore-lib');
 var Transaction = bitcore.Transaction;
 var BN = bitcore.crypto.BN;
 var async = require('async');
@@ -21,7 +21,7 @@ var bitcoind;
 var should = chai.should();
 var assert = chai.assert;
 var sinon = require('sinon');
-var BitcoinRPC = require('litecoind-rpc');
+var BitcoinRPC = require('luxd-rpc');
 var transactionData = [];
 var blockHashes = [];
 var txs = [];
@@ -52,7 +52,7 @@ describe('P2P Functionality', function() {
       bitcoind = require('../').services.Bitcoin({
         spawn: {
           datadir: datadir,
-          exec: path.resolve(__dirname, '../bin/litecoind')
+          exec: path.resolve(__dirname, '../bin/luxd')
         },
         node: {
           network: bitcore.Networks.testnet

@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+
+var luxcore = require('../lib/cli/bitcore');
+luxcore();
