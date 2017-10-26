@@ -1,24 +1,24 @@
 #!/bin/bash
-
+# TODO: fix download script. The branch is currently committing a precompiled binary as a workaround.
 set -e
 
 root_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 platform=`uname -a | awk '{print tolower($1)}'`
 arch=`uname -m`
 version="0.13.2"
-url="https://github.com/litecoin-project/litecore-litecoin/releases/download"
-tag="v0.13.2.1-litecore-rc2"
+url="https://github.com/216k155/luxcore-luxcoin/releases/download"
+tag="v0.13.2.1-luxcore-rc2"
 
 if [ "${platform}" == "linux" ]; then
     if [ "${arch}" == "x86_64" ]; then
-        tarball_name="litecoin-${version}-x86_64-linux-gnu.tar.gz"
+        tarball_name="luxcoin-${version}-x86_64-linux-gnu.tar.gz"
     elif [ "${arch}" == "x86_32" ]; then
-        tarball_name="litecoin-${version}-i686-pc-linux-gnu.tar.gz"
+        tarball_name="luxcoin-${version}-i686-pc-linux-gnu.tar.gz"
     fi
 elif [ "${platform}" == "darwin" ]; then
-    tarball_name="litecoin-${version}-osx64.tar.gz"
+    tarball_name="luxcoin-${version}-osx64.tar.gz"
 else
-    echo "Litecoin binary distribution not available for platform and architecture"
+    echo "Luxcoin binary distribution not available for platform and architecture"
     exit -1
 fi
 
@@ -29,7 +29,7 @@ download_bitcoind() {
 
     cd "${root_dir}/bin"
 
-    echo "Downloading litecoin: ${binary_url}"
+    echo "Downloading luxcoin: ${binary_url}"
 
     is_curl=true
     if hash curl 2>/dev/null; then
@@ -48,20 +48,20 @@ download_bitcoind() {
             wget $shasums_url
         fi
         if test -e "${tarball_name}"; then
-            echo "Unpacking litecoin distribution"
+            echo "Unpacking luxcoin distribution"
             tar -xvzf $tarball_name
             if test $? -eq 0; then
-                ln -sf "litecoin-${version}/bin/litecoind"
+                ln -sf "luxcoin-${version}/bin/luxd"
                 return;
             fi
         fi
     fi
-    echo "Litecoin binary distribution could not be downloaded"
+    echo "Luxcoin binary distribution could not be downloaded"
     exit -1
 }
 
 verify_download() {
-    echo "Verifying signatures of litecoin download"
+    echo "Verifying signatures of luxcoin download"
     gpg --verify "${root_dir}/bin/SHA256SUMS.asc"
 
     if hash shasum 2>/dev/null; then
