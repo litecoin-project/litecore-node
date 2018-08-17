@@ -29,7 +29,7 @@
   ],
   "dependencies": {
     "async": "^2.5.0",
-    "lcoin": "https://github.com/ultragtx/lcoin#for-litecore-v5.0",
+    "lcoin": "https://github.com/ostlerdev/lcoin#for-litecore-v5.0",
     "litecoind-rpc": "^0.7.1",
     "litecore-lib": "https://github.com/litecoin-project/litecore-lib#v5.0",
     "litecore-p2p": "https://github.com/litecoin-project/litecore-p2p#v5.0",
