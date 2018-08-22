@@ -684,7 +684,7 @@ describe('Node Functionality', function() {
   });
 
   describe('Orphaned Transactions', function() {
-    this.timeout(8000);
+    this.timeout(20000);
     var orphanedTransaction;
 
     before(function(done) {

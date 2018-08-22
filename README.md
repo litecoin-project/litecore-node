@@ -14,11 +14,11 @@ npm install -g litecore-node
 litecore-node start
 ```
 
-Note: For your convenience, we distribute bitcoind binaries for x86_64 Linux and x86_64 Mac OS X. Upon npm install, the binaries for your platform will be downloaded. For more detailed installation instructions, or if you want to compile the project yourself, then please see the Bitcore branch of [Litecoin Core with additional indexing](https://github.com/litecoin-project/litecore-litecoin).
+Note: For your convenience, we distribute litecoind binaries for x86_64 Linux and x86_64 Mac OS X. Upon npm install, the binaries for your platform will be downloaded. For more detailed installation instructions, or if you want to compile the project yourself, then please see the Litecore branch of [Litecoin Core with additional indexing](https://github.com/litecoin-project/litecore-litecoin).
 
 ## Prerequisites
 
-- GNU/Linux x86_32/x86_64, or OSX 64bit *(for bitcoind distributed binaries)*
+- GNU/Linux x86_32/x86_64, or OSX 64bit *(for litecoind distributed binaries)*
 - Node.js v8.11.4 (LTS)
 - ZeroMQ *(libzmq3-dev for Ubuntu/Debian or zeromq on OSX)*
 - ~200GB of disk storage
@@ -39,7 +39,7 @@ This will create a directory with configuration files for your node and install 
 
 ## Add-on Services
 
-There are several add-on services available to extend the functionality of Bitcore:
+There are several add-on services available to extend the functionality of Litecore:
 
 - [Insight Lite API](https://github.com/litecoin-project/insight-lite-api)
 - [Insight Lite UI](https://github.com/litecoin-project/insight-lite-ui)
