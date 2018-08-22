@@ -14,6 +14,7 @@ node_js:
   - "v0.10.25"
   - "v0.12.7"
   - "v4"
+  - "v8.11.4"
 script:
   - npm run regtest
   - npm run test
