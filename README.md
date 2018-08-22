@@ -10,7 +10,7 @@ A Litecoin full node for building applications and services with Node.js. A node
 ## Install
 
 ```bash
-npm install -g litecore-node
+npm install -g litecore-node --unsafe-perm=true
 litecore-node start
 ```
 
