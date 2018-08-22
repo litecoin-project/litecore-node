@@ -3318,12 +3318,12 @@ describe('Bitcoin Service', function() {
     it('will get address strings from bitcore addresses', function() {
       var addresses = [
         bitcore.Address('LUVKqDPPVBQcjUwt1S21Pa5ybgPaDEZhXR'),
-        bitcore.Address('MJZWZqmykQ32rvH8vUnW9jEPbyGg7agWQZ'),
+        bitcore.Address('mgY65WSfEmsyYaYPQaXhmXMeBhwp4EcsQW'),
       ];
       var bitcoind = new BitcoinService(baseConfig);
       var strings = bitcoind._getAddressStrings(addresses);
       strings[0].should.equal('LUVKqDPPVBQcjUwt1S21Pa5ybgPaDEZhXR');
-      strings[1].should.equal('MJZWZqmykQ32rvH8vUnW9jEPbyGg7agWQZ');
+      strings[1].should.equal('mgY65WSfEmsyYaYPQaXhmXMeBhwp4EcsQW');
     });
     it('will get address strings from strings', function() {
       var addresses = [
