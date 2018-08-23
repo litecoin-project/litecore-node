@@ -159,22 +159,6 @@ describe('P2P Functionality', function() {
 
   });
 
-  after(function(done) {
-    this.timeout(20000);
-    peer.on('disconnect', function() {
-      log.info('Peer disconnected');
-      bitcoind.node.stopping = true;
-      bitcoind.stop(function(err, result) {
-          if (err){ new Error(`Unable to shut down Daemon: ${err}`) }; 
-        // done();
-      });
-        setTimeout(function(){
-            done(); 
-        }, 5000); 
-        
-    });
-    peer.disconnect();
-  });
 
   it('will be able to handle many inventory messages and be able to send getdata messages and received the txs', function(done) {
     this.timeout(100000);
@@ -217,6 +201,21 @@ describe('P2P Functionality', function() {
           throw err;
         }
       });
+  });
+    
+    
+    
+  after(function(done) {
+    this.timeout(20000);
+    peer.on('disconnect', function() {
+      log.info('Peer disconnected');
+      bitcoind.node.stopping = true;
+      bitcoind.stop(function(err, result) {
+          if (err){ new Error(`Unable to shut down Daemon: ${err}`)};  
+        done();
+      });
+    });
+    peer.disconnect();
   });
 
 });
