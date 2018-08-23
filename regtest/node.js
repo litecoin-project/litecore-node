@@ -110,8 +110,8 @@ describe('Node Functionality', function() {
       if(err) {
         throw err;
       }
-        process.exit();
-      done();
+      process.exit(); 
+        done(); // ## deprecated ## (Mocha v5), using process.exit() 
     });
   });
 
