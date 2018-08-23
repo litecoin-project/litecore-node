@@ -79,7 +79,7 @@
     "benchmark": "1.0.0",
     "litecore-p2p": "^1.1.2",
     "chai": "^3.5.0",
-    "coveralls": "^2.11.9",
+    "coveralls": "^3.0.2",
     "istanbul": "^0.4.3",
     "jshint": "^2.9.2",
     "jshint-stylish": "^2.1.0",
