@@ -92,7 +92,7 @@ describe('Bitcoin Cluster', function() {
       async.each(daemons, function(process, next) {
         process.once('exit', next);
         process.kill('SIGINT');
-      }, done);
+      }, process.exit());
     }, 1000);
   });
 
