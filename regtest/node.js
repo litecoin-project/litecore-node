@@ -110,6 +110,7 @@ describe('Node Functionality', function() {
       if(err) {
         throw err;
       }
+        process.exit();
       done();
     });
   });

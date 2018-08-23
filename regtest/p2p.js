@@ -166,7 +166,7 @@ describe('P2P Functionality', function() {
       bitcoind.node.stopping = true;
       bitcoind.stop(function(err, result) {
           if (err){ new Error(`Unable to shut down Daemon: ${err}`)  }; 
-          process.exit()
+          process.exit(); 
         done();
       });
     });
