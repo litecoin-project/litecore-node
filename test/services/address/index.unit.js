@@ -8,6 +8,7 @@ var Encoding  = require('../../../lib/services/address/encoding');
 var Readable = require('stream').Readable;
 var EventEmitter = require('events').EventEmitter;
 var bcoin = require('lcoin');
+var lodash = require('lodash');
 
 describe('Address Service', function() {
 
@@ -54,7 +55,7 @@ describe('Address Service', function() {
 
   describe('#getAddressHistory', function() {
 
-    it('should get the address history', function(done) {
+    it('should get the address history (null case)', function(done) {
 
       sandbox.stub(addressService, '_getAddressTxidHistory').callsArgWith(2, null, null);
       sandbox.stub(addressService, '_getAddressTxHistory').callsArgWith(1, null, []);
@@ -74,6 +75,222 @@ describe('Address Service', function() {
       });
     });
 
+    it('should get the sorted address history', function(done) {
+
+      var old_getAddressTxidHistory = addressService._getAddressTxidHistory;
+      addressService._getAddressTxidHistory = function(addr, options, cb) {
+        options.txIdList = [
+          {
+            txid: "d",
+            height: 10,
+          },
+          {
+            txid: "c",
+            height: 10,
+          },
+          {
+            txid: "a",
+            height: 101,
+          },
+          {
+            txid: "b",
+            height: 100,
+          },
+        ];
+        return cb();
+      };
+
+
+      var old_getAddressTxHistory = addressService._getAddressTxHistory;
+      addressService._getAddressTxHistory = function(options, cb) {
+        return cb(null, options.txIdList);
+      };
+
+      addressService.getAddressHistory(['a', 'b', 'c'], { from: 12, to: 14 }, function(err, res) {
+
+        if (err) {
+          return done(err);
+        }
+
+        expect(res.totalCount).equal(4);
+        expect(lodash.map(res.items,'txid')).to.be.deep.equal(['a','b','c','d']);
+
+        addressService._getAddressTxidHistory = old_getAddressTxHistory;
+        addressService._getAddressTxHistory = old_getAddressTxHistory;
+        done();
+      });
+    });
+
+    it('should remove duplicated items in history', function(done) {
+
+      var old_getAddressTxidHistory = addressService._getAddressTxidHistory;
+      addressService._getAddressTxidHistory = function(addr, options, cb) {
+        options.txIdList = [
+          {
+            txid: "b",
+            height: 10,
+          },
+          {
+            txid: "b",
+            height: 10,
+          },
+          {
+            txid: "d",
+            height: 101,
+          },
+          {
+            txid: "c",
+            height: 100,
+          },
+         {
+            txid: "d",
+            height: 101,
+          },
+        ];
+        return cb();
+      };
+
+
+      var old_getAddressTxHistory = addressService._getAddressTxHistory;
+      addressService._getAddressTxHistory = function(options, cb) {
+        return cb(null, options.txIdList);
+      };
+
+      addressService.getAddressHistory(['a', 'b', 'c'], { from: 12, to: 14 }, function(err, res) {
+
+        if (err) {
+          return done(err);
+        }
+
+        expect(res.totalCount).equal(3);
+        expect(lodash.map(res.items,'txid')).to.be.deep.equal(['d','c','b']);
+
+        addressService._getAddressTxidHistory = old_getAddressTxHistory;
+        addressService._getAddressTxHistory = old_getAddressTxHistory;
+        done();
+      });
+    });
+
+
+    describe('TxIdList cache', function() {
+      var list, old_getAddressTxidHistory, old_getAddressTxHistory;
+
+      beforeEach(function(done){
+        this.clock = sinon.useFakeTimers();
+        list = [];
+        for(let i=1000; i>0; i--) {
+          list.push({
+            txid: "txid" + i,
+            height: 1000  + i,
+
+          });
+        };
+        old_getAddressTxidHistory = addressService._getAddressTxidHistory;
+        // Note that this stub DOES NOT respect options.from/to as the real function
+        addressService._getAddressTxidHistory = function(addr, options, cb) {
+          options.txIdList = lodash.clone(list);
+          return cb();
+        };
+        old_getAddressTxHistory = addressService._getAddressTxHistory;
+
+        addressService._getAddressTxHistory = function(options, cb) {
+          return cb(null, options.txIdList);
+        };
+
+        addressService.getAddressHistory(['a', 'b', 'c'], { from: 0, to: 10 }, function(err, res, cacheUsed) {
+          if (err) {
+            return done(err);
+          }
+          expect(res.totalCount).equal(1000);
+          expect(res.items,'txid').to.be.deep.equal(list);
+          expect(cacheUsed).equal(false);
+          done();
+        });
+      });
+
+      afterEach(function(done){
+        this.clock.restore();
+
+        addressService._getAddressTxidHistory = old_getAddressTxHistory;
+        addressService._getAddressTxHistory = old_getAddressTxHistory;
+        done();
+      });
+
+
+      it('should not cache the address txlist history when from =0 ', function(done) {
+        addressService.getAddressHistory(['a', 'b', 'c'], { from: 0, to: 10 }, function(err, res, cacheUsed) {
+          if (err) {
+            return done(err);
+          }
+          expect(res.totalCount).equal(1000);
+          expect(res.items,'txid').to.be.deep.equal(list);
+          expect(cacheUsed).equal(false);
+          done();
+        });
+      });
+
+      it('should cache the address txlist history', function(done) {
+        addressService.getAddressHistory(['a', 'b', 'c'], { from: 1, to: 10 }, function(err, res, cacheUsed) {
+          if (err) {
+            return done(err);
+          }
+          expect(cacheUsed).equal(true);
+          expect(res.totalCount).equal(1000);
+          expect(res.items,'txid').to.be.deep.equal(list);
+          done();
+        });
+      });
+
+
+      it('should retrive cached list using cachekey', function(done) {
+        addressService.getAddressHistory([], { from: 1, to: 10, cacheKey: 977282097 }, function(err, res, cacheUsed) {
+          if (err) {
+            return done(err);
+          }
+          expect(cacheUsed).equal(true);
+          expect(res.totalCount).equal(1000);
+          expect(res.items,'txid').to.be.deep.equal(list);
+          done();
+        });
+      });
+
+   
+
+      it('should expire cache', function(done) {
+        this.clock.tick(35*1000);
+        addressService.getAddressHistory(['a', 'b', 'c'], { from: 1, to: 10 }, function(err, res, cacheUsed) {
+          if (err) {
+            return done(err);
+          }
+          expect(cacheUsed).equal(false);
+          expect(res.totalCount).equal(1000);
+          expect(res.items,'txid').to.be.deep.equal(list);
+          done();
+        });
+      });
+
+      it('should cache using the address as key', function(done) {
+        addressService.getAddressHistory(['a', 'b', 'c', 'd'], { from: 1, to: 10 }, function(err, res, cacheUsed) {
+          if (err) {
+            return done(err);
+          }
+          expect(cacheUsed).equal(false);
+          expect(res.totalCount).equal(1000);
+          expect(res.items,'txid').to.be.deep.equal(list);
+          addressService.getAddressHistory(['a', 'b', 'c', 'd'], { from: 1, to: 10 }, function(err, res, cacheUsed) {
+            if (err) {
+              return done(err);
+            }
+            expect(cacheUsed).equal(true);
+            expect(res.totalCount).equal(1000);
+            expect(res.items,'txid').to.be.deep.equal(list);
+            done();
+          });
+        });
+      });
+
+
+    });
   });
 
   describe('#_getAddressTxidHistory', function() {
