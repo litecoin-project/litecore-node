@@ -110,7 +110,8 @@ describe('Node Functionality', function() {
       if(err) {
         throw err;
       }
-      done();
+      process.exit(); 
+        done(); // ## deprecated ## (Mocha v5), using process.exit() 
     });
   });
 
@@ -147,7 +148,7 @@ describe('Node Functionality', function() {
     var address;
     var unspentOutput;
     before(function(done) {
-      this.timeout(10000);
+      this.timeout(20000);
       address = testKey.toAddress(regtest).toString();
       var startHeight = node.services.bitcoind.height;
       node.services.bitcoind.on('tip', function(height) {
@@ -684,7 +685,7 @@ describe('Node Functionality', function() {
   });
 
   describe('Orphaned Transactions', function() {
-    this.timeout(8000);
+    this.timeout(20000);
     var orphanedTransaction;
 
     before(function(done) {

@@ -165,7 +165,9 @@ describe('P2P Functionality', function() {
       log.info('Peer disconnected');
       bitcoind.node.stopping = true;
       bitcoind.stop(function(err, result) {
-        done();
+          if (err){ new Error(`Unable to shut down Daemon: ${err}`)  }; 
+          process.exit();   
+            done(); // ## deprecated ## (Mocha v5), using process.exit()
       });
     });
     peer.disconnect();

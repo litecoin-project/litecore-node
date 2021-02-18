@@ -41,10 +41,10 @@ describe('Logger', function() {
     console.error.callCount.should.equal(1);
     console.error.restore();
 
-    sandbox.stub(console, 'log');
+    sandbox.stub(console, 'debug');
     logger.debug('Test debug log');
-    console.log.callCount.should.equal(1);
-    console.log.restore();
+    console.debug.callCount.should.equal(1);
+    console.debug.restore();
 
     sandbox.stub(console, 'warn');
     logger.warn('Test warn log');
@@ -67,11 +67,11 @@ describe('Logger', function() {
     console.error.args[0][0].should.be.instanceof(Error);
     console.error.restore();
 
-    sandbox.stub(console, 'log');
+    sandbox.stub(console, 'debug');
     logger.debug('Test debug log');
-    console.log.callCount.should.equal(1);
-    should.equal(console.log.args[0][0].match(/^\[/), null);
-    console.log.restore();
+    console.debug.callCount.should.equal(1);
+    should.equal(console.debug.args[0][0].match(/^\[/), null);
+    console.debug.restore();
 
     sandbox.stub(console, 'warn');
     logger.warn('Test warn log');

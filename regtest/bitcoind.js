@@ -133,7 +133,8 @@ describe('Bitcoind Functionality', function() {
     this.timeout(60000);
     bitcoind.node.stopping = true;
     bitcoind.stop(function(err, result) {
-      done();
+      process.exit();
+        done(); // ## deprecated ## (Mocha v5), using process.exit() 
     });
   });
 

@@ -10,16 +10,16 @@ A Litecoin full node for building applications and services with Node.js. A node
 ## Install
 
 ```bash
-npm install -g litecore-node
+npm install -g litecore-node --unsafe-perm=true
 litecore-node start
 ```
 
-Note: For your convenience, we distribute bitcoind binaries for x86_64 Linux and x86_64 Mac OS X. Upon npm install, the binaries for your platform will be downloaded. For more detailed installation instructions, or if you want to compile the project yourself, then please see the Bitcore branch of [Litecoin Core with additional indexing](https://github.com/litecoin-project/litecore-litecoin).
+Note: For your convenience, we distribute litecoind binaries for x86_64 Linux and x86_64 Mac OS X. Upon npm install, the binaries for your platform will be downloaded. For more detailed installation instructions, or if you want to compile the project yourself, then please see the Litecore branch of [Litecoin Core with additional indexing](https://github.com/litecoin-project/litecore-litecoin).
 
 ## Prerequisites
 
-- GNU/Linux x86_32/x86_64, or OSX 64bit *(for bitcoind distributed binaries)*
-- Node.js v0.10, v0.12 or v4
+- GNU/Linux x86_32/x86_64, or OSX 64bit *(for litecoind distributed binaries)*
+- Node.js v8.11.4 (LTS)
 - ZeroMQ *(libzmq3-dev for Ubuntu/Debian or zeromq on OSX)*
 - ~200GB of disk storage
 - ~8GB of RAM
@@ -29,7 +29,7 @@ Note: For your convenience, we distribute bitcoind binaries for x86_64 Linux and
 Litecore includes a Command Line Interface (CLI) for managing, configuring and interfacing with your Litecore Node.
 
 ```bash
-litecore-node create -d <bitcoin-data-dir> mynode
+litecore-node create -d <litecoin-data-dir> mynode
 cd mynode
 litecore-node install <service>
 litecore-node install https://github.com/yourname/helloworld
@@ -39,17 +39,17 @@ This will create a directory with configuration files for your node and install 
 
 ## Add-on Services
 
-There are several add-on services available to extend the functionality of Bitcore:
+There are several add-on services available to extend the functionality of Litecore:
 
-- [Insight API](https://github.com/bitpay/insight-api)
-- [Insight UI](https://github.com/bitpay/insight-ui)
-- [Bitcore Wallet Service](https://github.com/bitpay/bitcore-wallet-service)
+- [Insight Lite API](https://github.com/litecoin-project/insight-lite-api)
+- [Insight Lite UI](https://github.com/litecoin-project/insight-lite-ui)
+- [Litecore Wallet Service](https://github.com/litecoin-project/litecore-wallet-service)
 
 ## Documentation
 
 - [Upgrade Notes](docs/upgrade.md)
 - [Services](docs/services.md)
-  - [Bitcoind](docs/services/bitcoind.md) - Interface to Bitcoin Core
+  - [Bitcoind](docs/services/bitcoind.md) - Interface to Litecoin Core
   - [Web](docs/services/web.md) - Creates an express application over which services can expose their web/API content
 - [Development Environment](docs/development.md) - Guide for setting up a development environment
 - [Node](docs/node.md) - Details on the node constructor
@@ -64,7 +64,7 @@ Please send pull requests for bug fixes, code optimization, and ideas for improv
 
 Code released under [the MIT license](https://github.com/litecoin-project/litecore-node/blob/master/LICENSE).
 
-Copyright 2016 The Litecoin Core Developers
+Copyright 2018 The Litecoin Core Developers
 
 - bitcore: Copyright (c) 2013-2015 BitPay, Inc. (MIT License)
 - bitcoin: Copyright (c) 2009-2015 Bitcoin Core Developers (MIT License)

@@ -71,8 +71,8 @@ describe('#create', function() {
       should.equal(fs.existsSync(packagePath), true);
 
       var config = JSON.parse(fs.readFileSync(configPath));
-      config.services.should.deep.equal(['bitcoind', 'db', 'address', 'web']);
-      config.datadir.should.equal('./data');
+      config.services.should.deep.equal(['bitcoind', 'web']); 
+      config.servicesConfig.bitcoind.spawn.datadir.should.equal('./data');
       config.network.should.equal('livenet');
 
       var pack = JSON.parse(fs.readFileSync(packagePath));
