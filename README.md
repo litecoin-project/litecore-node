@@ -37,6 +37,20 @@ litecore-node install https://github.com/yourname/helloworld
 
 This will create a directory with configuration files for your node and install the necessary dependencies. For more information about (and developing) services, please see the [Service Documentation](docs/services.md).
 
+## Running in production
+Express by default runs in a development mode that exposes stack traces for easy debugging.  When running in production make sure to set the environment appropriately.
+
+To do this, set an environment variable
+```
+export NODE_ENV=production
+```
+
+To make this setting permament make sure the environment variable persists by adding it to a login script.  For Bash run:
+```bash
+echo "export NODE_ENV=production" >> ~/.bashrc
+source ~/.bashrc
+```
+
 ## Add-on Services
 
 There are several add-on services available to extend the functionality of Bitcore:
